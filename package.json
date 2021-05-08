@@ -1,0 +1,19 @@
+{
+  "name": "learn-graphql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mattlean/learn-graphql.git",
+  "author": "Matthew Lean <matt@mattlean.com>",
+  "dependencies": {
+    "apollo-server": "^2.24.0",
+    "graphql": "^15.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "2.2.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
