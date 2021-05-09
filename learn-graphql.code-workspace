@@ -5,7 +5,11 @@
     }
   ],
   "extensions": {
-    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "graphql.vscode-graphql"
+    ]
   },
   "settings": {
     "editor.formatOnSave": true
