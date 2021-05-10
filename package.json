@@ -11,10 +11,11 @@
   "devDependencies": {
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.23.2",
     "nodemon": "^2.0.7",
     "prettier": "2.2.1"
   },
   "scripts": {
-    "start": "nodemon src/index"
+    "start": "nodemon back/index"
   }
 }
