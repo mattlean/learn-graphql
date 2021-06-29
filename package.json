@@ -16,6 +16,6 @@
     "prettier": "2.2.1"
   },
   "scripts": {
-    "start": "nodemon back/index"
+    "start": "nodemon apollo-server/index"
   }
 }
