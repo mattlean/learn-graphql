@@ -5,6 +5,7 @@ import {
   loadQuery,
   usePreloadedQuery,
 } from 'react-relay/hooks'
+import CreateLink from './components/CreateLink'
 import LinkList from './components/LinkList'
 import RelayEnvironment from './RelayEnvironment'
 
@@ -39,7 +40,12 @@ function App({ preloadedQueryRef }) {
     throw new Error('Expected links to be defined')
   }
 
-  return <LinkList linksQueryRef={linksQueryRef} />
+  return (
+    <div>
+      <CreateLink />
+      <LinkList linksQueryRef={linksQueryRef} />
+    </div>
+  )
 }
 
 // The above component needs to know how to access the Relay environment, and we
