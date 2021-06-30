@@ -19,7 +19,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "relay": "relay-compiler --src ./src --schema schema.graphql"
+    "relay": "nodemon --watch src --exec \"relay-compiler --src ./src --schema schema.json\""
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "graphql": "^15.5.1",
+    "nodemon": "^2.0.8",
     "relay-compiler": "^11.0.2"
-  }
+  },
+  "proxy": "http://localhost:8000"
 }

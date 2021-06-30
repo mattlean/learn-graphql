@@ -5,4 +5,5 @@
 3. Install packages: `pip install -r requirements.txt`
 4. Run server: `python manage.py runserver`
 5. Install frontend: `yarn`
-6. Start frontend: `yarn start`
+6. Dump introspection schema: `python manage.py graphql_schema --schema hackernews.schema.schema --out schema.json`
+7. Start frontend: `yarn start`

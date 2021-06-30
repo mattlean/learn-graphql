@@ -5,13 +5,18 @@ import links.schema
 import links.schema_relay
 import users.schema
 
+from graphql import GraphQLError
+
 class Query(
     users.schema.Query,
     links.schema.Query,
     links.schema_relay.RelayQuery,
     graphene.ObjectType
 ):
-    pass
+    foo = graphene.String()
+
+    def resolve_foo(root, info):
+        raise GraphQLError('Oh no something went wrong!')
 
 class Mutation(
     users.schema.Mutation,

@@ -1,28 +1,25 @@
-import React from 'react'
-import './App.css'
-import fetchGraphQL from './fetchGraphQL'
 import graphql from 'babel-plugin-relay/macro'
+import React, { Suspense } from 'react'
 import {
   RelayEnvironmentProvider,
   loadQuery,
   usePreloadedQuery,
 } from 'react-relay/hooks'
+import LinkList from './components/LinkList'
 import RelayEnvironment from './RelayEnvironment'
 
-const { Suspense } = React
-
 // Define a query
-const RepositoryNameQuery = graphql`
-  query AppRepositoryNameQuery {
-    repository(owner: "facebook", name: "relay") {
-      name
+const appQuery = graphql`
+  query AppLinksQuery {
+    relayLinks {
+      ...LinkList_links
     }
   }
 `
 
 // Immediately load the query as our app starts. For a real app, we'd move this
 // into our routing configuration, preloading data as we transition to new routes.
-const preloadedQuery = loadQuery(RelayEnvironment, RepositoryNameQuery, {
+const preloadedQueryRef = loadQuery(RelayEnvironment, appQuery, {
   /* query variables */
 })
 
@@ -34,16 +31,15 @@ const preloadedQuery = loadQuery(RelayEnvironment, RepositoryNameQuery, {
 //   fallback.
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
-function App(props) {
-  const data = usePreloadedQuery(RepositoryNameQuery, props.preloadedQuery)
+function App({ preloadedQueryRef }) {
+  const data = usePreloadedQuery(appQuery, preloadedQueryRef)
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>{data.repository.name}</p>
-      </header>
-    </div>
-  )
+  const linksQueryRef = data.relayLinks
+  if (!linksQueryRef) {
+    throw new Error('Expected links to be defined')
+  }
+
+  return <LinkList linksQueryRef={linksQueryRef} />
 }
 
 // The above component needs to know how to access the Relay environment, and we
@@ -51,11 +47,11 @@ function App(props) {
 // - <RelayEnvironmentProvider> tells child components how to talk to the current
 //   Relay Environment instance
 // - <Suspense> specifies a fallback in case a child suspends.
-function AppRoot(props) {
+function AppRoot() {
   return (
     <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <Suspense fallback={'Loading...'}>
-        <App preloadedQuery={preloadedQuery} />
+      <Suspense fallback="Loading...">
+        <App preloadedQueryRef={preloadedQueryRef} />
       </Suspense>
     </RelayEnvironmentProvider>
   )
