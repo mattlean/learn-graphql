@@ -1,5 +1,6 @@
 import graphql from 'babel-plugin-relay/macro'
 import React, { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import {
   RelayEnvironmentProvider,
   loadQuery,
@@ -48,6 +49,15 @@ function App({ preloadedQueryRef }) {
   )
 }
 
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+    </div>
+  )
+}
+
 // The above component needs to know how to access the Relay environment, and we
 // need to specify a fallback in case it suspends:
 // - <RelayEnvironmentProvider> tells child components how to talk to the current
@@ -56,9 +66,11 @@ function App({ preloadedQueryRef }) {
 function AppRoot() {
   return (
     <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <Suspense fallback="Loading...">
-        <App preloadedQueryRef={preloadedQueryRef} />
-      </Suspense>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Suspense fallback="Loading...">
+          <App preloadedQueryRef={preloadedQueryRef} />
+        </Suspense>
+      </ErrorBoundary>
     </RelayEnvironmentProvider>
   )
 }
