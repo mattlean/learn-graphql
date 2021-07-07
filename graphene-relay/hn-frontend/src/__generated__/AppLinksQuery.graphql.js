@@ -8,12 +8,10 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
-type LinkList_links$ref = any;
+type LinkList_relayLinks$ref = any;
 export type AppLinksQueryVariables = {||};
 export type AppLinksQueryResponse = {|
-  +relayLinks: ?{|
-    +$fragmentRefs: LinkList_links$ref
-  |}
+  +$fragmentRefs: LinkList_relayLinks$ref
 |};
 export type AppLinksQuery = {|
   variables: AppLinksQueryVariables,
@@ -24,16 +22,16 @@ export type AppLinksQuery = {|
 
 /*
 query AppLinksQuery {
-  relayLinks {
-    ...LinkList_links
-  }
+  ...LinkList_relayLinks
 }
 
-fragment LinkList_links on LinkNodeConnection {
-  edges {
-    node {
-      ...Link_link
-      id
+fragment LinkList_relayLinks on Query {
+  relayLinks {
+    edges {
+      node {
+        ...Link_link
+        id
+      }
     }
   }
 }
@@ -53,20 +51,9 @@ const node/*: ConcreteRequest*/ = {
     "name": "AppLinksQuery",
     "selections": [
       {
-        "alias": null,
         "args": null,
-        "concreteType": "LinkNodeConnection",
-        "kind": "LinkedField",
-        "name": "relayLinks",
-        "plural": false,
-        "selections": [
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "LinkList_links"
-          }
-        ],
-        "storageKey": null
+        "kind": "FragmentSpread",
+        "name": "LinkList_relayLinks"
       }
     ],
     "type": "Query",
@@ -135,15 +122,15 @@ const node/*: ConcreteRequest*/ = {
     ]
   },
   "params": {
-    "cacheID": "fc0d37842064a9326c234322f2f24824",
+    "cacheID": "ac2ad92671d85581c7310a0e876c804b",
     "id": null,
     "metadata": {},
     "name": "AppLinksQuery",
     "operationKind": "query",
-    "text": "query AppLinksQuery {\n  relayLinks {\n    ...LinkList_links\n  }\n}\n\nfragment LinkList_links on LinkNodeConnection {\n  edges {\n    node {\n      ...Link_link\n      id\n    }\n  }\n}\n\nfragment Link_link on LinkNode {\n  id\n  description\n  url\n}\n"
+    "text": "query AppLinksQuery {\n  ...LinkList_relayLinks\n}\n\nfragment LinkList_relayLinks on Query {\n  relayLinks {\n    edges {\n      node {\n        ...Link_link\n        id\n      }\n    }\n  }\n}\n\nfragment Link_link on LinkNode {\n  id\n  description\n  url\n}\n"
   }
 };
 // prettier-ignore
-(node/*: any*/).hash = '3c382f8f76b92e6aa614a533f9018c83';
+(node/*: any*/).hash = '5c19b7f11581079626076c7eca3b4161';
 
 module.exports = node;

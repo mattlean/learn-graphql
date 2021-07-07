@@ -1,8 +1,8 @@
 import graphql from 'babel-plugin-relay/macro'
 import { useFragment } from 'react-relay'
 
-function Link({ linkQueryRef }) {
-  const link = useFragment(
+function Link({ linkRef }) {
+  const { description, url } = useFragment(
     graphql`
       fragment Link_link on LinkNode {
         id
@@ -10,13 +10,13 @@ function Link({ linkQueryRef }) {
         url
       }
     `,
-    linkQueryRef
+    linkRef
   )
 
   return (
     <div>
       <div>
-        {link.description} ({link.url})
+        {description} ({url})
       </div>
     </div>
   )

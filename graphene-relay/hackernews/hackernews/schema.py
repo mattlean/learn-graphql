@@ -14,9 +14,17 @@ class Query(
     graphene.ObjectType
 ):
     foo = graphene.String()
+    goodbye = graphene.String()
+    hello = graphene.String(name=graphene.String(default_value="stranger"))
 
     def resolve_foo(root, info):
         raise GraphQLError('Oh no something went wrong!')
+
+    def resolve_goodbye(root, info):
+        return 'See ya!'
+
+    def resolve_hello(root, info, name):
+        return f'Hello {name}!'
 
 class Mutation(
     users.schema.Mutation,

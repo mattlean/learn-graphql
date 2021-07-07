@@ -11,17 +11,15 @@ import LinkList from './components/LinkList'
 import RelayEnvironment from './RelayEnvironment'
 
 // Define a query
-const appQuery = graphql`
+const initQueryRef = graphql`
   query AppLinksQuery {
-    relayLinks {
-      ...LinkList_links
-    }
+    ...LinkList_relayLinks
   }
 `
 
 // Immediately load the query as our app starts. For a real app, we'd move this
 // into our routing configuration, preloading data as we transition to new routes.
-const preloadedQueryRef = loadQuery(RelayEnvironment, appQuery, {
+const preloadedQueryRef = loadQuery(RelayEnvironment, initQueryRef, {
   /* query variables */
 })
 
@@ -34,17 +32,12 @@ const preloadedQueryRef = loadQuery(RelayEnvironment, appQuery, {
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function App({ preloadedQueryRef }) {
-  const data = usePreloadedQuery(appQuery, preloadedQueryRef)
-
-  const linksQueryRef = data.relayLinks
-  if (!linksQueryRef) {
-    throw new Error('Expected links to be defined')
-  }
+  const queryData = usePreloadedQuery(initQueryRef, preloadedQueryRef)
 
   return (
     <div>
       <CreateLink />
-      <LinkList linksQueryRef={linksQueryRef} />
+      <LinkList relayLinksFragRef={queryData} />
     </div>
   )
 }

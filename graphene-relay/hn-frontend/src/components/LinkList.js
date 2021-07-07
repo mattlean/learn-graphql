@@ -2,26 +2,29 @@ import graphql from 'babel-plugin-relay/macro'
 import { useFragment } from 'react-relay'
 import Link from './Link'
 
-function LinkList({ linksQueryRef }) {
-  const links = useFragment(
+function LinkList({ relayLinksFragRef }) {
+  const { relayLinks } = useFragment(
     graphql`
-      fragment LinkList_links on LinkNodeConnection {
-        edges {
-          node {
-            ...Link_link
+      fragment LinkList_relayLinks on Query {
+        relayLinks {
+          edges {
+            node {
+              ...Link_link
+            }
           }
         }
       }
     `,
-    linksQueryRef
+    relayLinksFragRef
   )
 
-  const nodes = links && links.edges ? links.edges.map((l) => l?.node) : []
+  const nodes =
+    relayLinks && relayLinks.edges ? relayLinks.edges.map((l) => l?.node) : []
 
   return (
     <div>
       {nodes.map((n) => {
-        return <Link key={n.__id} linkQueryRef={n} />
+        return <Link key={n.__id} linkRef={n} />
       })}
     </div>
   )
