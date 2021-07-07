@@ -9,24 +9,30 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type LinkList_relayLinks$ref = any;
-export type AppLinksQueryVariables = {||};
-export type AppLinksQueryResponse = {|
+export type LinkListPaginationQueryVariables = {|
+  count?: ?number,
+  cursor?: ?string,
+|};
+export type LinkListPaginationQueryResponse = {|
   +$fragmentRefs: LinkList_relayLinks$ref
 |};
-export type AppLinksQuery = {|
-  variables: AppLinksQueryVariables,
-  response: AppLinksQueryResponse,
+export type LinkListPaginationQuery = {|
+  variables: LinkListPaginationQueryVariables,
+  response: LinkListPaginationQueryResponse,
 |};
 */
 
 
 /*
-query AppLinksQuery {
-  ...LinkList_relayLinks
+query LinkListPaginationQuery(
+  $count: Int = 5
+  $cursor: String
+) {
+  ...LinkList_relayLinks_1G22uz
 }
 
-fragment LinkList_relayLinks on Query {
-  relayLinks(first: 5) {
+fragment LinkList_relayLinks_1G22uz on Query {
+  relayLinks(first: $count, after: $cursor) {
     edges {
       node {
         ...Link_link
@@ -52,20 +58,48 @@ fragment Link_link on LinkNode {
 const node/*: ConcreteRequest*/ = (function(){
 var v0 = [
   {
-    "kind": "Literal",
+    "defaultValue": 5,
+    "kind": "LocalArgument",
+    "name": "count"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "cursor"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "after",
+    "variableName": "cursor"
+  },
+  {
+    "kind": "Variable",
     "name": "first",
-    "value": 5
+    "variableName": "count"
   }
 ];
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppLinksQuery",
+    "name": "LinkListPaginationQuery",
     "selections": [
       {
-        "args": null,
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "count",
+            "variableName": "count"
+          },
+          {
+            "kind": "Variable",
+            "name": "cursor",
+            "variableName": "cursor"
+          }
+        ],
         "kind": "FragmentSpread",
         "name": "LinkList_relayLinks"
       }
@@ -75,13 +109,13 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "AppLinksQuery",
+    "name": "LinkListPaginationQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "LinkNodeConnection",
         "kind": "LinkedField",
         "name": "relayLinks",
@@ -170,11 +204,11 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "relayLinks(first:5)"
+        "storageKey": null
       },
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": (v1/*: any*/),
         "filters": null,
         "handle": "connection",
         "key": "LinkList_relayLinks",
@@ -184,16 +218,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c3a139915aaccee2209486f059430d03",
+    "cacheID": "b9c6fe3f05f92c65b72ff251ba7cdd32",
     "id": null,
     "metadata": {},
-    "name": "AppLinksQuery",
+    "name": "LinkListPaginationQuery",
     "operationKind": "query",
-    "text": "query AppLinksQuery {\n  ...LinkList_relayLinks\n}\n\nfragment LinkList_relayLinks on Query {\n  relayLinks(first: 5) {\n    edges {\n      node {\n        ...Link_link\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment Link_link on LinkNode {\n  id\n  description\n  url\n}\n"
+    "text": "query LinkListPaginationQuery(\n  $count: Int = 5\n  $cursor: String\n) {\n  ...LinkList_relayLinks_1G22uz\n}\n\nfragment LinkList_relayLinks_1G22uz on Query {\n  relayLinks(first: $count, after: $cursor) {\n    edges {\n      node {\n        ...Link_link\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment Link_link on LinkNode {\n  id\n  description\n  url\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '5c19b7f11581079626076c7eca3b4161';
+(node/*: any*/).hash = 'aed9e012961b85c1af939f49f861f028';
 
 module.exports = node;

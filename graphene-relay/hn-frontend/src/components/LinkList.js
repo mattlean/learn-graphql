@@ -1,12 +1,20 @@
 import graphql from 'babel-plugin-relay/macro'
-import { useFragment } from 'react-relay'
+import { usePaginationFragment } from 'react-relay'
 import Link from './Link'
 
 function LinkList({ relayLinksFragRef }) {
-  const { relayLinks } = useFragment(
+  const {
+    data: { relayLinks },
+  } = usePaginationFragment(
     graphql`
-      fragment LinkList_relayLinks on Query {
-        relayLinks {
+      fragment LinkList_relayLinks on Query
+      @argumentDefinitions(
+        cursor: { type: "String" }
+        count: { type: "Int", defaultValue: 5 }
+      )
+      @refetchable(queryName: "LinkListPaginationQuery") {
+        relayLinks(first: $count, after: $cursor)
+          @connection(key: "LinkList_relayLinks") {
           edges {
             node {
               ...Link_link
