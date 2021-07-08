@@ -1,5 +1,6 @@
 import graphene
 import graphql_jwt
+from graphene import relay
 
 import links.schema
 import links.schema_relay
@@ -16,6 +17,7 @@ class Query(
     foo = graphene.String()
     goodbye = graphene.String()
     hello = graphene.String(name=graphene.String(default_value="stranger"))
+    node = relay.Node.Field()
 
     def resolve_foo(root, info):
         raise GraphQLError('Oh no something went wrong!')
