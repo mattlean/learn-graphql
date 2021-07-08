@@ -5,6 +5,10 @@ import Link from './Link'
 function LinkList({ relayLinksFragRef }) {
   const {
     data: { relayLinks },
+    loadNext,
+    refetch,
+    hasNext,
+    hasPrevious,
   } = usePaginationFragment(
     graphql`
       fragment LinkList_relayLinks on Query
@@ -29,11 +33,16 @@ function LinkList({ relayLinksFragRef }) {
   const nodes =
     relayLinks && relayLinks.edges ? relayLinks.edges.map((l) => l?.node) : []
 
+  console.log('hasPrevious', hasPrevious)
+  console.log('hasNext', hasNext)
+
   return (
     <div>
       {nodes.map((n) => {
         return <Link key={n.__id} linkRef={n} />
       })}
+      <button onClick={() => loadNext(5)}>Add More</button>
+      <button onClick={() => refetch({ count: 2 })}>Refetch first 2</button>
     </div>
   )
 }
